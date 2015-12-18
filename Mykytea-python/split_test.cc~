@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define ALLOCATE_SITE 246
+int split(char ***ary, char* s, const char *delimiter){
+
+  char *tmp = strdup(s);
+
+  int i,n;
+  for( i =n =0; (tmp=strtok(tmp, delimiter)) != NULL; i++){
+    if (i >= n) {
+      n += ALLOCATE_SITE;
+      *ary = (char**)realloc(*ary, sizeof(char*)*n);
+    }
+    (*ary)[i] = strdup(tmp);
+    tmp = NULL;
+  }
+  return i;
+}
+
+int main(){
+
+  char line[] = "test1 test2";
+  char delimiter_1[] = " ";
+  unsigned int split_len1,j;
+
+  char **ary1 = (char**)malloc( sizeof(char*) );
+  split_len1 = split(&ary1, line, delimiter_1);
+  for (j=0; j<split_len1; j++) {
+    printf("%s\n", ary1[j]);
+  }
+
+
+  return 0;
+}
